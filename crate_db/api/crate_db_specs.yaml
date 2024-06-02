@@ -24,7 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateROCResponse'
+                $ref: '#/components/schemas/Service'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
