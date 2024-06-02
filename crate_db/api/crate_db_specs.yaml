@@ -123,7 +123,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CreateROCResponse'
+                  $ref: '#/components/schemas/ROCrateBody'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -154,7 +154,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateROCResponse'
+                $ref: '#/components/schemas/ROCrateBody'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -319,6 +319,15 @@ components:
         - description
 
     CreateROCResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+          description: The unique identifier for the RO-Crate.
+          example: 260e7aa0-2e07-484e-9da7-ee19fdd1800d
+
+    ROCrateBody:
       type: object
       properties:
         _id:
