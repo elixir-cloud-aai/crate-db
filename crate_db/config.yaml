@@ -28,16 +28,15 @@ security:
       - public_key
     validation_checks: all
 
-
 # Database configuration
 # Cf. https://foca.readthedocs.io/en/latest/modules/foca.models.html#foca.models.config.DBConfig
 db:
   host: mongodb
   port: 27017
   dbs:
-    ro-crate-db:
+    ro_crate_db:
       collections:
-        ro-crates:
+        ro_crates:
           indexes: null
 
 # API configuration
@@ -45,7 +44,7 @@ db:
 api:
   specs:
     - path:
-        - api/crate-db-specs.yaml
+        - api/crate_db_specs.yaml
       add_operation_fields:
         x-openapi-router-controller: ga4gh.controllers.server
         security:

@@ -3,7 +3,9 @@
 from pathlib import Path
 
 from connexion import FlaskApp  # type: ignore
-from foca import Foca  # type: ignore
+from foca import Foca
+
+from crate_db.ga4gh.service_info import ServiceInfo  # type: ignore
 
 
 def init_app() -> FlaskApp:
@@ -16,6 +18,9 @@ def init_app() -> FlaskApp:
         config_file=Path(__file__).resolve().parent / "config.yaml",
     )
     app = foca.create_app()
+    with app.app.app_context():
+        service_info = ServiceInfo()
+        service_info.init_service_info_from_config()
     return app
 
 
