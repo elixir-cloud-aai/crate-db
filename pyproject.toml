@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "crate_db"
+version = "0.1.0"
+description = "Versatile backend for easy RO-Crate management"
+license = "Apache-2.0"
+maintainers = ["Elixir Cloud AAI <cloud-service@elixir-europe.org>"]
+authors = ["Elixir Cloud AAI <cloud-service@elixir-europe.org>"]
+repository = "https://github.com/elixir-cloud-aai/crate-db"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+connexion = ">=2.11.2,<3"
+foca = "<0.13"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+flake8 = "^3.9.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
