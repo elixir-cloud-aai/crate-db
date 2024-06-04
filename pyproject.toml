@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "crate_db"
 version = "0.1.0"
-description = "This service focuses on developing a versatile backend to manage and share RO-Crates using various technologies. The end goal is to make it easy for a user to manage any RO-Crate."
+description = "Versatile backend for easy RO-Crate management"
 license = "Apache-2.0"
 maintainers = ["Elixir Cloud AAI <cloud-service@elixir-europe.org>"]
 authors = ["Elixir Cloud AAI <cloud-service@elixir-europe.org>"]
@@ -11,7 +11,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 connexion = ">=2.11.2,<3"
-foca = ">=0.12.1"
+foca = "<0.13"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
