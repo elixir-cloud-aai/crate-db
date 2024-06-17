@@ -1,1 +1,1 @@
-""" root folder of the crate_db specificifcations """
+"""Crate DB API package."""

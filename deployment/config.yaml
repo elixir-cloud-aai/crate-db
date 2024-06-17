@@ -38,19 +38,21 @@ db:
       collections:
         ro_crates:
           indexes: null
+        service_info:
+          indexes: null
 
 # API configuration
 # Cf. https://foca.readthedocs.io/en/latest/modules/foca.models.html#foca.models.config.APIConfig
 api:
   specs:
     - path:
-        - api/crate_db_specs.yaml
+        - api/specs/crate_db_specs.yaml
       add_operation_fields:
-        x-openapi-router-controller: ga4gh.controllers.server
+        x-openapi-router-controller: crate_db.api.ga4gh.controllers.crate_db_controller
         security:
           - bearerAuth: []
       add_security_fields:
-        x-bearerInfoFunc: app.validate_token
+        x-bearerInfoFunc: foca.security.auth.validate_token
       disable_auth: True
       connexion:
         strict_validation: True
@@ -59,9 +61,14 @@ api:
           swagger_ui: True
           serve_spec: True
 
+# Service information configuration
+serviceInfo:
+  doc: Microservice for managing RO-Crates
+  name: crate_db
+
 # Exception configuration
 # Cf. https://foca.readthedocs.io/en/latest/modules/foca.models.html#foca.models.config.ExceptionConfig
 Exceptions:
   required_members: [['message'], ['code']]
   status_member: ['code']
-  exceptions: exceptions.exceptions
+  exceptions: crate_db.exceptions.exceptions

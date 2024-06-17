@@ -33,7 +33,7 @@ def createServiceInfo(service_info) -> dict:
     return "Demo request"
 
 
-def getServiceInfo() -> dict:
+def readServiceInfo() -> dict:
     return "Demo request"
 
 

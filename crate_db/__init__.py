@@ -1,1 +1,1 @@
-"""Crate DB root package"""
+"""Crate DB root package."""

@@ -24,7 +24,7 @@ class ServiceInfo:
     def __init__(self) -> None:
         """Construct class instance."""
         self.db_client: Collection = (
-            current_app.config.foca.db.dbs["ro_crates"]  # type: ignore
+            current_app.config.foca.db.dbs["ro_crate_db"]  # type: ignore
             .collections["service_info"]
             .client
         )
