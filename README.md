@@ -6,8 +6,6 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/elixir-cloud-aai/crate-db)](https://github.com/elixir-cloud-aai/crate-db/graphs/contributors)
 [![Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://docs.astral.sh/ruff/)
 
-# RO-Crate Management System
-
 ## Introduction
 
 Various research artifacts are produced daily around the world, but managing them is a tedious task for researchers. Researchers prefer to spend more time on new discoveries rather than finding efficient ways to store, retrieve, or share their data. This project aims to alleviate these challenges by providing a robust backend system for managing RO-Crates—standardized packages for research data and metadata.
