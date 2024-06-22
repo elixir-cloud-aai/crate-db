@@ -1,16 +1,16 @@
 openapi: 3.0.1
 info:
-  title: "OpenAPI specification for managing RO-Crates"
-  description: "Microservice for managing RO-Crates"
+  title: OpenAPI specification for managing RO-Crates
+  description: Microservice for managing RO-Crates.
   version: 0.1.0
 servers:
-  - url: /rocrate/v1
+  - url: /elixircloud/roc/v1
 
 paths:
   /service-info:
     post:
-      summary: 'Create new service information'
-      description: 'Create a new service information resource.'
+      summary: Create new service information
+      description: Create a new service information resource.
       operationId: createServiceInfo
       requestBody:
         required: true
@@ -20,7 +20,7 @@ paths:
               $ref: '#/components/schemas/ROCServiceInfo'
       responses:
         201:
-          description: The service info was successfully created.
+          description: The service information was created.
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -28,15 +28,15 @@ paths:
         403:
           $ref: '#/components/responses/Forbidden'
         500:
-          $ref: '#/components/responses/UnexpectedError'
+          $ref: '#/components/responses/InternalServerError'
 
     get:
       description: |-
-        Provides information about the service, based on the GA4GH Service Info API
+        Provides information about the service, based on the GA4GH Service Info API.
       operationId: readServiceInfo
       responses:
         200:
-          description: 'Read the service information resource.'
+          description: Read the service information resource.
           content:
             application/json:
               schema:
@@ -46,11 +46,11 @@ paths:
         403:
           $ref: '#/components/responses/Forbidden'
         500:
-          $ref: '#/components/responses/UnexpectedError'
+          $ref: '#/components/responses/InternalServerError'
 
     put:
-      summary: 'Update existing service information'
-      description: 'Update an existing service information resource.'
+      summary: Update existing service information
+      description: Update an existing service information resource.
       operationId: updateServiceInfo
       requestBody:
         required: true
@@ -67,10 +67,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         403:
           $ref: '#/components/responses/Forbidden'
-        404:
-          $ref: '#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/UnexpectedError'
+          $ref: '#/components/responses/InternalServerError'
 
   /ro-crates:
     post:
@@ -85,7 +83,7 @@ paths:
               $ref: '#/components/schemas/CreateROCRequestBody'
       responses:
         201:
-          description: Identifier of the created RO-Crate resource
+          description: Identifier of the created RO-Crate resource.
           content:
             application/json:
               schema:
@@ -97,12 +95,12 @@ paths:
         403:
           $ref: '#/components/responses/Forbidden'
         500:
-          $ref: '#/components/responses/UnexpectedError'
+          $ref: '#/components/responses/InternalServerError'
 
     get:
-      summary: List all RO-Crate resources
+      summary: Read all RO-Crate resources
       description: Retrieve a list of all RO-Crate resources stored in the database.
-      operationId: listROCs
+      operationId: readROCs
       responses:
         200:
           description: OK
@@ -117,21 +115,15 @@ paths:
         403:
           $ref: '#/components/responses/Forbidden'
         500:
-          $ref: '#/components/responses/UnexpectedError'
+          $ref: '#/components/responses/InternalServerError'
 
-  /ro-crates/{roc-id}:
+  /ro-crates/{rocIdParam}:
     get:
-      summary: Retrieve a specific RO-Crate resource by ID
+      summary: Read specific RO-Crate resource
       description: Retrieve a specific RO-Crate resource stored in the database.
       operationId: readROC
       parameters:
-        - name: roc-id
-          in: path
-          description: An identifier referencing an RO-Crate resource.
-          required: true
-          schema:
-            type: string
-            example: "260e7aa0-2e07-484e-9da7-ee19fdd1800d"
+        - $ref: '#/components/parameters/rocIdParam'
       responses:
         200:
           description: OK
@@ -146,20 +138,14 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/UnexpectedError'
+          $ref: '#/components/responses/InternalServerError'
 
     put:
-      summary: Update an existing RO-Crate resource
+      summary: Update existing RO-Crate resource
       description: Update an existing RO-Crate resource.
       operationId: updateROC
       parameters:
-        - name: roc-id
-          in: path
-          description: An identifier referencing an RO-Crate resource.
-          required: true
-          schema:
-            type: string
-            example: "260e7aa0-2e07-484e-9da7-ee19fdd1800d"
+        - $ref: '#/components/parameters/rocIdParam'
       requestBody:
         required: true
         content:
@@ -178,7 +164,7 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/UnexpectedError'
+          $ref: '#/components/responses/InternalServerError'
 
 components:
   schemas:
@@ -301,7 +287,6 @@ components:
         message:
           type: string
           description: A detailed error message.
-          
       required:
         - title
         - status
@@ -313,8 +298,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-          examples:
-            example1:
+          example:
               value:
                 status: 400
                 title: Bad Request
@@ -326,8 +310,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-          examples:
-            example1:
+          example:
               value:
                 status: 401
                 title: Unauthorized
@@ -339,8 +322,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-          examples:
-            example1:
+          example:
               value:
                 status: 403
                 title: Forbidden
@@ -352,29 +334,27 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-          examples:
-            example1:
+          example:
               value:
                 status: 404
                 title: Not Found
                 type: "https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found"
 
-    UnexpectedError:
-      description: Unexpected Error
+    InternalServerError:
+      description: Internal Server Error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-          examples:
-            example1:
+          example:
               value:
                 status: 500
                 title: Internal Server Error
                 type: "https://www.rfc-editor.org/rfc/rfc9110.html#name-500-internal-server-error"
 
   parameters:
-    roc-id:
-      name: roc-id
+    rocIdParam:
+      name: rocIdParam
       in: path
       description: An identifier referencing an RO-Crate resource.
       required: true
