@@ -134,8 +134,8 @@ to us for anything else, you can join our [Slack board][badge-url-chat],
 start a thread in our [Q&A forum][contact-qa], or send us an 
 [email][contact-email].
 
-[![GA4GH logo](images/logo-ga4gh.png)](https://www.ga4gh.org/)  
-[![ELIXIR logo](images/logo-elixir.png)](https://www.elixir-europe.org/)  
+[![GA4GH logo](images/logo-ga4gh.png)](https://www.ga4gh.org/)
+[![ELIXIR logo](images/logo-elixir.png)](https://www.elixir-europe.org/)
 [![ELIXIR Cloud & AAI logo](images/logo-elixir-cloud.png)](https://elixir-europe.github.io/cloud/)
 
 [badge-license]: <https://img.shields.io/badge/License-Apache_2.0-blue.svg>
