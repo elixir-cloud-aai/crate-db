@@ -10,6 +10,8 @@ from foca.errors.exceptions import (
     NotFound,
 )
 
+from werkzeug.exceptions import NotImplemented
+
 exceptions = {
     Exception: {
         "message": "An unexpected error occurred.",
@@ -45,5 +47,9 @@ exceptions = {
     InternalServerError: {
         "message": "An unexpected error occurred.",
         "code": "500",
-    }
+    },
+    NotImplemented: {
+        "message": "The requested functionality is not implemented.",
+        "code": "501",
+    },
 }

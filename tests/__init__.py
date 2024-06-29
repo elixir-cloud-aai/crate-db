@@ -1,1 +1,1 @@
-""" Contains the tests for the crate_db service """
+"""Crate DB service tests."""

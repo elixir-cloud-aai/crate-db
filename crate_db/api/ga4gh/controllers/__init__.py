@@ -1,1 +1,1 @@
-""" Crate DB RO-Crate controller package."""
+""" Crate DB GA4GH service controller package."""
