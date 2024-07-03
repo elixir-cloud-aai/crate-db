@@ -175,8 +175,6 @@ paths:
       responses:
         204:
           description: The RO-Crate resource was deleted.
-        400:
-          $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/Unauthorized'
         403:
