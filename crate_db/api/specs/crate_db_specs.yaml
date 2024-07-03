@@ -154,7 +154,27 @@ paths:
               $ref: '#/components/schemas/CreateROCResponse'
       responses:
         204:
-          description: The service information was updated.
+          description: The RO-Crate resource was updated.
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      summary: Delete existing RO-Crate resource
+      description: Delete an existing RO-Crate resource.
+      operationId: deleteROC
+      parameters:
+        - $ref: '#/components/parameters/rocIdParam'
+      responses:
+        204:
+          description: The RO-Crate resource was deleted.
         400:
           $ref: '#/components/responses/BadRequest'
         401:
