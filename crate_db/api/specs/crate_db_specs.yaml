@@ -140,32 +140,6 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
-    put:
-      summary: Update existing RO-Crate resource
-      description: Update an existing RO-Crate resource.
-      operationId: updateROC
-      parameters:
-        - $ref: '#/components/parameters/rocIdParam'
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/CreateROCResponse'
-      responses:
-        204:
-          description: The RO-Crate resource was updated.
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        403:
-          $ref: '#/components/responses/Forbidden'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-
     delete:
       summary: Delete existing RO-Crate resource
       description: Delete an existing RO-Crate resource.
@@ -197,22 +171,8 @@ components:
         rocrate:
           type: string
           format: binary
-          description: The RO-Crate file to upload.
+          description: The RO-Crate ZIP file to be uploaded.
           example: rocrate.zip
-        description:
-          type: string
-          description: A description of the RO-Crate.
-          example: This is an example description of an RO-Crate.
-        title:
-          type: string
-          description: The title of the RO-Crate.
-          example: Example RO-Crate
-        zenodo_info:
-          type: object
-          description: Additional information for Zenodo.
-          example:
-            doi: 10.1234/example.doi
-            metadata: {...}
       required:
         - rocrate
         - title
@@ -235,47 +195,47 @@ components:
           format: uuid
           description: The unique identifier for the RO-Crate.
           example: 260e7aa0-2e07-484e-9da7-ee19fdd1800d
-        rocrate:
+        located_at:
           type: string
-          description: The link to the RO-Crate file in MinIO.
+          description: The remote storage URL at which the RO-Crate ZIP archive can be accessed.
           example: https://minio.example.com/ro-crates/rocrate.zip
         created_at:
           type: string
           format: date-time
-          description: The creation date of the RO-Crate.
+          description: The creation date of the RO-Crate resource, in ISO 8601 format "%Y-%m-%dT%H:%M:%SZ".
           example: 2023-01-01T12:00:00Z
-        updated_at:
+        modified_at:
           type: string
           format: date-time
-          description: The last update date of the RO-Crate.
+          description: The last modification date of the RO-Crate resource, in ISO 8601 format "%Y-%m-%dT%H:%M:%SZ".
           example: 2023-01-02T12:00:00Z
-        user_id:
+        name:
           type: string
-          format: uuid
-          description: The user ID extracted from the access token.
-          example: 260e7aa0-2e07-484e-9da7-ee19fdd1800d
-        title:
-          type: string
-          description: The title of the RO-Crate.
+          description: The name of the RO-Crate.
           example: Example RO-Crate
         description:
           type: string
           description: A description of the RO-Crate.
           example: This is an example description of an RO-Crate.
-        zenodo_info:
-          type: object
-          description: Additional information for Zenodo.
-          example:
-            doi: 10.1234/example.doi
-            metadata: {...}
+        size:
+          type: integer
+          format: int64
+          description: The size of the RO-Crate ZIP archive in bytes.
+        checksums:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/checksums'
+          description: >-
+            The checksum of the data, as a hex-string encoded checksum value.
+            The checksum SHOULD be calculated over the entire RO-Crate ZIP archive, including the manifest.json file.
+            The checksum SHOULD be calculated using the `sha-256` digest method.
       required:
         - _id
-        - rocrate
+        - located_at
         - created_at
-        - updated_at
-        - user_id
-        - title
-        - description
+        - modified_at
+        - size
 
     ProblemDetails:
       type: object
@@ -380,3 +340,25 @@ components:
         type: string
         format: uuid
         example: 260e7aa0-2e07-484e-9da7-ee19fdd1800d
+
+  checksums:
+    type: object
+    required:
+      - checksum
+      - type
+    properties:
+      checksum:
+        type: string
+        description: The hex-string encoded checksum for the data
+      type:
+        type: string
+        description: >-
+          The digest method used to create the checksum.
+
+          The value (e.g. `sha-256`) SHOULD be listed as `Hash Name String` in the https://www.iana.org/assignments/named-information/named-information.xhtml#hash-alg[IANA Named Information Hash Algorithm Registry].
+          Other values MAY be used, as long as implementors are aware of the issues discussed in https://tools.ietf.org/html/rfc6920#section-9.4[RFC6920].
+
+          GA4GH may provide more explicit guidance for use of non-IANA-registered algorithms in the future.
+          Until then, if implementers do choose such an algorithm (e.g. because it's implemented by their storage provider), they SHOULD use an existing
+          standard `type` value such as `md5`, `etag`, `crc32c`, `trunc512`, or `sha1`.
+        example: sha-256
