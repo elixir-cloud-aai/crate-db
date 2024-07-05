@@ -228,7 +228,7 @@ components:
             $ref: '#/components/schemas/checksums'
           description: >-
             The checksum of the data, as a hex-string encoded checksum value.
-            The checksum SHOULD be calculated over the entire RO-Crate ZIP archive, including the manifest.json file.
+            The checksum SHOULD be calculated over the entire RO-Crate ZIP archive.
             The checksum SHOULD be calculated using the `sha-256` digest method.
       required:
         - _id
