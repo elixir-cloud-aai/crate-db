@@ -1,0 +1,359 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI specification for managing RO-Crates
+  description: Microservice for managing RO-Crates.
+  version: 0.1.0
+servers:
+  - url: /elixircloud/roc/v1
+
+paths:
+  /service-info:
+    post:
+      summary: Create new service information
+      description: Create a new service information resource.
+      operationId: createServiceInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceInfo'
+      responses:
+        201:
+          description: The service information was created.
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+    get:
+      description: |-
+        Provides information about the service, based on the GA4GH Service Info API.
+      operationId: readServiceInfo
+      responses:
+        200:
+          description: Read the service information resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceInfo'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      summary: Update existing service information
+      description: Update an existing service information resource.
+      operationId: updateServiceInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceInfo'
+      responses:
+        204:
+          description: The service information was updated.
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /ro-crates:
+    post:
+      summary: Create RO-Crate resource
+      description: Create a new RO-Crate resource.
+      operationId: createROC
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ROCrate'
+      responses:
+        201:
+          description: Identifier of the created RO-Crate resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ROCrate'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+    get:
+      summary: Read all RO-Crate resources
+      description: Retrieve a list of all RO-Crate resources stored in the database.
+      operationId: readROCs
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ROCrate'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /ro-crates/{rocId}:
+    get:
+      summary: Read specific RO-Crate resource
+      description: Retrieve a specific RO-Crate resource stored in the database.
+      operationId: readROC
+      parameters:
+        - $ref: '#/components/parameters/rocId'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ROCrate'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      summary: Delete existing RO-Crate resource
+      description: Delete an existing RO-Crate resource.
+      operationId: deleteROC
+      parameters:
+        - $ref: '#/components/parameters/rocId'
+      responses:
+        204:
+          description: The RO-Crate resource was deleted.
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    ServiceInfo:
+      allOf:
+      - $ref: 'https://raw.githubusercontent.com/ga4gh-discovery/ga4gh-service-info/v1.0.0/service-info.yaml#/components/schemas/Service'
+      - type: object
+
+    ROCrate:
+      type: object
+      properties:
+        rocrate:
+          type: string
+          format: binary
+          writeOnly: true
+          description: The RO-Crate ZIP file to be uploaded.
+          example: rocrate.zip
+        _id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: The unique identifier for the RO-Crate.
+          example: 260e7aa0-2e07-484e-9da7-ee19fdd1800d
+        located_at:
+          type: string
+          format: uri
+          readOnly: true
+          description: The remote storage URL at which the RO-Crate ZIP archive can be accessed.
+          example: https://minio.example.com/ro-crates/rocrate.zip
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The creation date of the RO-Crate resource, in ISO 8601 format "%Y-%m-%dT%H:%M:%SZ".
+          example: 2023-01-01T12:00:00Z
+        modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The last modification date of the RO-Crate resource, in ISO 8601 format "%Y-%m-%dT%H:%M:%SZ".
+          example: 2023-01-02T12:00:00Z
+        size:
+          type: integer
+          format: int64
+          readOnly: true
+          description: The size of the RO-Crate ZIP archive in bytes.
+          example: 12345
+        name:
+          type: string
+          readOnly: true
+          description: The name of the RO-Crate.
+          example: Example RO-Crate
+        description:
+          type: string
+          readOnly: true
+          description: A description of the RO-Crate.
+          example: This is an example description of an RO-Crate.
+        checksums:
+          type: array
+          readOnly: true
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Checksums'
+          description: >-
+            The checksum of the data, as a hex-string encoded checksum value.
+            The checksum SHOULD be calculated over the entire RO-Crate ZIP archive.
+            The checksum SHOULD be calculated using the `sha-256` digest method.
+      required:
+        - rocrate
+        - _id
+        - located_at
+        - created_at
+        - modified_at
+        - size
+
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          description: A URI reference that identifies the problem type. When dereferenced, it might provide human-readable documentation for the problem type.
+        title:
+          type: string
+          description: A short, human-readable summary of the problem type. It should not change from occurrence to occurrence of the problem, except for localization purposes.
+        status:
+          type: integer
+          format: int32
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          format: uri
+          description: A URI reference that identifies the specific occurrence of the problem. It might provide further information if dereferenced.
+        code:
+          type: integer
+          format: int32
+          description: Application-specific error code.
+        message:
+          type: string
+          description: A detailed error message.
+      required:
+        - title
+        - status
+        
+    Checksums:
+      type: object
+      required:
+        - checksum
+        - type
+      properties:
+        checksum:
+          type: string
+          description: The hex-string encoded checksum for the data
+        type:
+          type: string
+          description: >-
+            The digest method used to create the checksum.
+  
+            The value (e.g. `sha-256`) SHOULD be listed as `Hash Name String` in the https://www.iana.org/assignments/named-information/named-information.xhtml#hash-alg[IANA Named Information Hash Algorithm Registry].
+            Other values MAY be used, as long as implementors are aware of the issues discussed in https://tools.ietf.org/html/rfc6920#section-9.4[RFC6920].
+  
+            GA4GH may provide more explicit guidance for use of non-IANA-registered algorithms in the future.
+            Until then, if implementers do choose such an algorithm (e.g. because it's implemented by their storage provider), they SHOULD use an existing
+            standard `type` value such as `md5`, `etag`, `crc32c`, `trunc512`, or `sha1`.
+          example: sha-256
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+              value:
+                status: 400
+                title: Bad Request
+                type: "https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request"
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+              value:
+                status: 401
+                title: Unauthorized
+                type: "https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized"
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+              value:
+                status: 403
+                title: Forbidden
+                type: "https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden"
+
+    NotFound:
+      description: Resource Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+              value:
+                status: 404
+                title: Not Found
+                type: "https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found"
+
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+              value:
+                status: 500
+                title: Internal Server Error
+                type: "https://www.rfc-editor.org/rfc/rfc9110.html#name-500-internal-server-error"
+
+  parameters:
+    rocId:
+      name: rocId
+      in: path
+      description: An identifier referencing an RO-Crate resource.
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: 260e7aa0-2e07-484e-9da7-ee19fdd1800d
