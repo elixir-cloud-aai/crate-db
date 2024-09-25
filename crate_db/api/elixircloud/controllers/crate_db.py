@@ -14,20 +14,35 @@ def createROC(ro_crate_data, ro_crate) -> dict:
 
 
 @log_traffic
-def listROCs() -> list:
+def readROCs() -> list:
     return NotImplemented
 
 
 @log_traffic
-def readROC(ro_crate_id: str) -> dict:
+def readROC(rocId: str) -> dict:
     return NotImplemented
 
 
 @log_traffic
-def updateROC(ro_crate_id: str) -> dict:
+def updateROC(rocId: str) -> dict:
     return NotImplemented
 
 
 @log_traffic
-def deleteROC(ro_crate_id: str) -> dict:
+def deleteROC(rocId: str) -> dict:
+    return NotImplemented
+
+
+@log_traffic
+def createServiceInfo(service_info) -> dict:
+    return NotImplemented
+
+
+@log_traffic
+def readServiceInfo() -> dict:
+    return NotImplemented
+
+
+@log_traffic
+def updateServiceInfo(service_info) -> dict:
     return NotImplemented

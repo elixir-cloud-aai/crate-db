@@ -12,6 +12,7 @@ readme = "README.md"
 python = "^3.11"
 connexion = ">=2.11.2,<3"
 foca = "<0.13"
+casbin = "^1.36.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"

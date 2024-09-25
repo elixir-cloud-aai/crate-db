@@ -112,6 +112,9 @@ ipython_config.py
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
 
+# Custom additions
+*.modified.yaml
+
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
@@ -152,8 +155,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# Custom additions
-*.modified.yaml
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
