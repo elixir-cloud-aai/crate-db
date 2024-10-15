@@ -48,7 +48,7 @@ api:
     - path:
         - api/specs/crate_db_specs.yaml
       add_operation_fields:
-        x-openapi-router-controller: crate_db.api.elixircloud.controllers.crate_db
+        x-openapi-router-controller: crate_db.api.controllers
         security:
           - bearerAuth: []
       add_security_fields:
