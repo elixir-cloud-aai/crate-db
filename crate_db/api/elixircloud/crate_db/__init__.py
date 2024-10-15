@@ -1,1 +1,1 @@
-"""Crate DB Elixir Cloud crate db package."""
+"""Crate DB ELIXIR Cloud crate db package."""
