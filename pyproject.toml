@@ -9,9 +9,10 @@ repository = "https://github.com/elixir-cloud-aai/crate-db"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.11"
 connexion = ">=2.11.2,<3"
 foca = "<0.13"
+casbin = "^1.36.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
