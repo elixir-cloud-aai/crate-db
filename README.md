@@ -37,6 +37,34 @@ component to further simplify these operations.
 - Package the project as a Python dependency.
 - Write examples, tests, and documentation.
 
+## Installation
+
+### Requirements
+
+Ensure you have the following software installed:
+
+* Docker (19.03.4, build 9013bf583a)
+* docker-compose (1.25.5)
+* Git (2.17.1)
+
+> Indicated versions were used for developing/testing. Other versions may or
+> may not work. Please let us know if you encounter any issues with versions
+> _newer_ than the listed ones.
+
+### Deploy app
+
+Clone repository:
+
+```bash
+git clone https://github.com/elixir-cloud-aai/crate-db.git
+```
+
+Build and run services in detached/daemonized mode:
+
+```bash
+docker-compose up -d --build
+```
+
 ## Implementation Details
 
 ### Abstract
@@ -64,7 +92,7 @@ Three main components will be used:
    zipped RO-Crates.
 2. **[MongoDB][mongodb]:** Stores metadata and zipped RO-Crates.
 3. **RO-Crate Microservice:** Central package interacting with other 
-   components.
+   components
 
 ### Why MinIO?
 
